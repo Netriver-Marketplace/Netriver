@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Login - Netriver</title>
+    <link rel="stylesheet" href="css/style.css">
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+    <button class="theme-toggle">🌓</button>
+
+    <nav>
+        <div class="container nav-container">
+            <a href="/" class="logo">Netriver</a>
+            <button class="mobile-menu-btn">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="cart.html">Cart <span class="cart-count">0</span></a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="register.html">Register</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Seller Login</h1>
+            <p>Access your seller dashboard</p>
+        </div>
+    </section>
+
+    <section class="login-section">
+        <div class="container">
+            <div class="form-container">
+                <h2>Login to Your Account</h2>
+                <p class="form-intro">Enter your credentials to access your seller dashboard</p>
+                
+                <form id="login-form" class="login-form">
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required placeholder="your@email.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Password *</label>
+                        <input type="password" id="password" name="password" required placeholder="Enter your password">
+                    </div>
+                    
+                    <div class="form-group remember-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="remember" name="remember">
+                            <span>Remember me</span>
+                        </label>
+                        <a href="#" class="forgot-password">Forgot password?</a>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Login</button>
+                    
+                    <div class="form-footer">
+                        <p>Don't have an account? <a href="/register">Register here</a></p>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="login-info-section">
+                <h2>Welcome Back!</h2>
+                <p>Log in to access your seller dashboard and manage your business on Netriver.</p>
+                
+                <div class="dashboard-features">
+                    <h3>Your Dashboard Includes:</h3>
+                    <ul class="features-list">
+                        <li>📊 <strong>Sales Analytics</strong> - Track your sales performance and revenue</li>
+                        <li>📦 <strong>Product Management</strong> - Add, edit, and manage your products</li>
+                        <li>🛒 <strong>Order Management</strong> - View and process customer orders</li>
+                        <li>💰 <strong>Earnings Overview</strong> - Monitor your earnings and commission</li>
+                        <li>📈 <strong>Business Insights</strong> - Analyze your business growth</li>
+                        <li>⚙️ <strong>Account Settings</strong> - Manage your business profile</li>
+                    </ul>
+                </div>
+                
+                <div class="security-notice">
+                    <h3>🔒 Secure Login</h3>
+                    <p>Your login is protected with:</p>
+                    <ul>
+                        <li>Password encryption</li>
+                        <li>Rate limiting to prevent brute force attacks</li>
+                        <li>Secure session management</li>
+                        <li>Login attempt monitoring</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-section">
+                <h3>Netriver</h3>
+                <p>Your trusted Nigerian marketplace</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="/products">Products</a>
+                <a href="/about">About Us</a>
+                <a href="/contact">Contact</a>
+            </div>
+            <div class="footer-section">
+                <h3>Seller Zone</h3>
+                <a href="/register">Register as Seller</a>
+                <a href="/login">Seller Login</a></li>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <p>Email: admin@netriver.ng</p>
+                <p>Phone: +234 800 000 0000</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Login form submission
+        document.getElementById('login-form')?.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // Remove remember from data (not sent to API)
+            delete data.remember;
+            
+            // Submit login
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    showToast('Login successful! Redirecting to dashboard...', 'success');
+                    setTimeout(() => {
+                        window.location.href = '/dashboard';
+                    }, 1500);
+                } else {
+                    showToast(result.error || 'Login failed', 'error');
+                    
+                    // If email verification required
+                    if (result.requiresVerification && result.email) {
+                        setTimeout(() => {
+                            window.location.href = `/verify?email=${encodeURIComponent(result.email)}`;
+                        }, 2000);
+                    }
+                }
+            } catch (error) {
+                showToast('Login failed. Please try again.', 'error');
+                console.error('Login error:', error);
+            }
+        });
+
+        // Handle forgot password (placeholder functionality)
+        document.querySelector('.forgot-password')?.addEventListener('click', function(e) {
+            e.preventDefault();
+            showToast('Password reset functionality will be implemented soon. Please contact support.', 'warning');
+        });
+    </script>
+</body>
+</html>

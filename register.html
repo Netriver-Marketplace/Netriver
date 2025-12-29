@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register as Seller - Netriver</title>
+    <link rel="stylesheet" href="css/style.css">
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+    <button class="theme-toggle">🌓</button>
+
+    <nav>
+        <div class="container nav-container">
+            <a href="/" class="logo">Netriver</a>
+            <button class="mobile-menu-btn">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="cart.html">Cart <span class="cart-count">0</span></a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="register.html">Register</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Register as Seller</h1>
+            <p>Join Netriver and start selling your products across Nigeria</p>
+        </div>
+    </section>
+
+    <section class="registration-section">
+        <div class="container">
+            <div class="form-container">
+                <h2>Seller Registration</h2>
+                <p class="form-intro">Fill in your business details to create your seller account</p>
+                
+                <form id="register-form" class="registration-form">
+                    <div class="form-group">
+                        <label for="business_name">Business Name *</label>
+                        <input type="text" id="business_name" name="business_name" required 
+                               minlength="3" maxlength="255" placeholder="Enter your business name">
+                        <small class="form-hint">This will be displayed on your dashboard and product listings</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required placeholder="your@email.com">
+                        <small class="form-hint">We'll send important notifications to this email</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Password *</label>
+                        <input type="password" id="password" name="password" required 
+                               minlength="8" placeholder="Minimum 8 characters">
+                        <small class="form-hint">Use a strong password with letters, numbers, and symbols</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirm_password">Confirm Password *</label>
+                        <input type="password" id="confirm_password" name="confirm_password" required 
+                               minlength="8" placeholder="Re-enter your password">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" id="phone" name="phone" required 
+                               placeholder="+2348000000000 or 08000000000">
+                        <small class="form-hint">Format: +234XXXXXXXXXX or 0XXXXXXXXXX</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="business_address">Business Address *</label>
+                        <textarea id="business_address" name="business_address" required 
+                                  rows="3" placeholder="Enter your full business address"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="state">State *</label>
+                        <select id="state" name="state" required>
+                            <option value="">Select your state</option>
+                             <option>Abia</option>
+    <option>Adamawa</option>
+    <option>Akwa Ibom</option>
+    <option>Anambra</option>
+    <option>Bauchi</option>
+    <option>Bayelsa</option>
+    <option>Benue</option>
+    <option>Borno</option>
+    <option>Cross River</option>
+    <option>Delta</option>
+    <option>Ebonyi</option>
+    <option>Edo</option>
+    <option>Ekiti</option>
+    <option>Enugu</option>
+    <option>Gombe</option>
+    <option>Imo</option>
+    <option>Jigawa</option>
+    <option>Kaduna</option>
+    <option>Kano</option>
+    <option>Katsina</option>
+    <option>Kebbi</option>
+    <option>Kogi</option>
+    <option>Kwara</option>
+    <option>Lagos</option>
+    <option>Nasarawa</option>
+    <option>Niger</option>
+    <option>Ogun</option>
+    <option>Ondo</option>
+    <option>Osun</option>
+    <option>Oyo</option>
+    <option>Plateau</option>
+    <option>Rivers</option>
+    <option>Sokoto</option>
+    <option>Taraba</option>
+    <option>Yobe</option>
+    <option>Zamfara</option>
+    <option>FCT Abuja</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="city">City *</label>
+                        <input type="text" id="city" name="city" required 
+                               minlength="2" maxlength="100" placeholder="Enter your city">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="business_description">Business Description</label>
+                        <textarea id="business_description" name="business_description" 
+                                  rows="4" placeholder="Tell customers about your business (optional)"></textarea>
+                        <small class="form-hint">This helps customers understand what you offer</small>
+                    </div>
+                    
+                    <div class="form-group terms-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="terms" name="terms" required>
+                            <span>I agree to the <a href="about.html" target="_blank">Terms of Service</a> and <a href="about.html" target="_blank">Privacy Policy</a></span>
+                        </label>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Create Seller Account</button>
+                    
+                    <div class="form-footer">
+                        <p>Already have an account? <a href="login.html">Login here</a></p>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="benefits-section">
+                <h2>Why Sell on Netriver?</h2>
+                <div class="benefits-grid">
+                    <div class="benefit-card">
+                        <h3>🎯 10% Commission</h3>
+                        <p>Keep 90% of your sales. We only earn when you sell.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h3>🇳🇬 Nigerian Focus</h3>
+                        <p>Platform designed specifically for the Nigerian market.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h3>💳 Secure Payments</h3>
+                        <p>Integrated with Paystack for safe and reliable transactions.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h3>📊 Business Dashboard</h3>
+                        <p>Track sales, manage products, and analyze performance.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h3>🚀 Nationwide Reach</h3>
+                        <p>Sell to customers across all 36 states in Nigeria.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h3>🔒 Secure Platform</h3>
+                        <p>Enterprise-grade security protects your business data.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-section">
+                <h3>Netriver</h3>
+                <p>Your trusted Nigerian marketplace</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="products.html">Products</a>
+                <a href="about.html">About Us</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <div class="footer-section">
+                <h3>Seller Zone</h3>
+                <a href="register.html">Register as Seller</a>
+                <a href="login.html">Seller Login</a>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <p>Email: netriver.marketplace@gmail.com</p>
+                <p>Phone: +234 800 000 0000</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Load Nigerian states
+        document.addEventListener('DOMContentLoaded', async () => {
+            const stateSelect = document.getElementById('state');
+            
+            try {
+                const response = await fetch('/api/auth/states');
+                const data = await response.json();
+                
+                if (data.states) {
+                    data.states.forEach(state => {
+                        const option = document.createElement('option');
+                        option.value = state;
+                        option.textContent = state;
+                        stateSelect.appendChild(option);
+                    });
+                }
+            } catch (error) {
+                console.error('Failed to load states:', error);
+            }
+        });
+
+        // Registration form submission
+        document.getElementById('register-form')?.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // Validate passwords match
+            if (data.password !== data.confirm_password) {
+                showToast('Passwords do not match!', 'error');
+                return;
+            }
+            
+            // Remove confirm_password from data
+            delete data.confirm_password;
+            delete data.terms;
+            
+            // Submit registration
+            try {
+                const response = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    showToast('Registration successful! Redirecting to email verification...', 'success');
+                    setTimeout(() => {
+                        window.location.href = `/verify?email=${encodeURIComponent(data.email)}`;
+                    }, 2000);
+                } else {
+                    showToast(result.error || 'Registration failed', 'error');
+                    if (result.errors) {
+                        result.errors.forEach(error => {
+                            showToast(error, 'error');
+                        });
+                    }
+                }
+            } catch (error) {
+                showToast('Registration failed. Please try again.', 'error');
+                console.error('Registration error:', error);
+            }
+        });
+    </script>
+</body>
+</html>

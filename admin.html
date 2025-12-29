@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Netriver</title>
+    <link rel="stylesheet" href="css/style.css">
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+    <button class="theme-toggle">🌓</button>
+
+    <nav>
+        <div class="container nav-container">
+            <a href="/" class="logo">Netriver</a>
+            <button class="mobile-menu-btn">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="admin.html">Admin</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="admin-panel">
+        <div class="container">
+            <div class="admin-header">
+                <h1>Admin Dashboard</h1>
+                <p>Platform overview and management</p>
+            </div>
+
+            <div class="admin-stats">
+                <div class="admin-stat">
+                    <div class="admin-stat-value" id="stat-users">0</div>
+                    <div class="admin-stat-label">Registered Users</div>
+                </div>
+                <div class="admin-stat">
+                    <div class="admin-stat-value" id="stat-products">0</div>
+                    <div class="admin-stat-label">Total Products</div>
+                </div>
+                <div class="admin-stat">
+                    <div class="admin-stat-value" id="stat-orders">0</div>
+                    <div class="admin-stat-label">Total Orders</div>
+                </div>
+                <div class="admin-stat">
+                    <div class="admin-stat-value" id="stat-revenue">₦0</div>
+                    <div class="admin-stat-label">Commission Revenue</div>
+                </div>
+                <div class="admin-stat">
+                    <div class="admin-stat-value" id="stat-commission">10%</div>
+                    <div class="admin-stat-label">Commission Rate</div>
+                </div>
+                <div class="admin-stat">
+                    <div class="admin-stat-value" id="stat-active-users">0</div>
+                    <div class="admin-stat-label">Active Users</div>
+                </div>
+            </div>
+
+            <div class="admin-tabs">
+                <button class="tab-btn active" data-tab="overview">Overview</button>
+                <button class="tab-btn" data-tab="users">Users</button>
+                <button class="tab-btn" data-tab="orders">Orders</button>
+                <button class="tab-btn" data-tab="revenue">Revenue</button>
+            </div>
+
+            <div class="tab-content active" id="overview-tab">
+                <div class="admin-overview">
+                    <h2>Platform Overview</h2>
+                    <div class="overview-grid">
+                        <div class="overview-card">
+                            <h3>Recent Registrations</h3>
+                            <div class="recent-list" id="recent-users">
+                                <div class="spinner"></div>
+                            </div>
+                        </div>
+                        <div class="overview-card">
+                            <h3>Recent Orders</h3>
+                            <div class="recent-list" id="recent-orders">
+                                <div class="spinner"></div>
+                            </div>
+                        </div>
+                        <div class="overview-card">
+                            <h3>Top Sellers</h3>
+                            <div class="recent-list" id="top-sellers">
+                                <div class="spinner"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="users-tab">
+                <div class="admin-table-section">
+                    <div class="table-header">
+                        <h2>Registered Users</h2>
+                        <div class="table-filters">
+                            <select id="user-filter">
+                                <option value="all">All Users</option>
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
+                            </select>
+                            <input type="text" id="user-search" placeholder="Search users...">
+                            <button class="btn-secondary" onclick="loadUsers()">Refresh</button>
+                        </div>
+                    </div>
+                    <div class="admin-table" id="users-table">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="orders-tab">
+                <div class="admin-table-section">
+                    <div class="table-header">
+                        <h2>All Orders</h2>
+                        <div class="table-filters">
+                            <select id="order-payment-filter">
+                                <option value="all">All Payment Status</option>
+                                <option value="pending">Pending</option>
+                                <option value="paid">Paid</option>
+                                <option value="failed">Failed</option>
+                            </select>
+                            <select id="order-status-filter">
+                                <option value="all">All Order Status</option>
+                                <option value="pending">Pending</option>
+                                <option value="confirmed">Confirmed</option>
+                                <option value="processing">Processing</option>
+                                <option value="shipped">Shipped</option>
+                                <option value="delivered">Delivered</option>
+                                <option value="cancelled">Cancelled</option>
+                            </select>
+                            <button class="btn-secondary" onclick="loadAdminOrders()">Refresh</button>
+                        </div>
+                    </div>
+                    <div class="admin-table" id="orders-table">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="revenue-tab">
+                <div class="revenue-analytics">
+                    <h2>Revenue Analytics</h2>
+                    <div class="period-selector">
+                        <button class="period-btn active" data-period="7">7 Days</button>
+                        <button class="period-btn" data-period="30">30 Days</button>
+                        <button class="period-btn" data-period="90">90 Days</button>
+                    </div>
+                    <div class="revenue-chart-container">
+                        <div class="revenue-chart" id="revenue-chart">
+                            <div class="spinner"></div>
+                        </div>
+                    </div>
+                    <div class="revenue-summary">
+                        <div class="summary-card">
+                            <h3>Total Revenue (Commission)</h3>
+                            <div class="summary-value" id="revenue-total">₦0</div>
+                        </div>
+                        <div class="summary-card">
+                            <h3>Total Orders</h3>
+                            <div class="summary-value" id="revenue-orders">0</div>
+                        </div>
+                        <div class="summary-card">
+                            <h3>Total Sales</h3>
+                            <div class="summary-value" id="revenue-sales">₦0</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-section">
+                <h3>Netriver</h3>
+                <p>Your trusted Nigerian marketplace</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="/products">Products</a>
+                <a href="/about">About Us</a>
+                <a href="/contact">Contact</a>
+            </div>
+            <div class="footer-section">
+                <h3>Seller Zone</h3>
+                <a href="/register">Register as Seller</a>
+                <a href="/login">Seller Login</a>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <p>Email: admin@netriver.ng</p>
+                <p>Phone: +234 800 000 0000</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Tab switching
+        document.querySelectorAll('.admin-tabs .tab-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const tabId = button.getAttribute('data-tab');
+                
+                document.querySelectorAll('.admin-tabs .tab-btn').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                
+                button.classList.add('active');
+                document.getElementById(`${tabId}-tab`).classList.add('active');
+                
+                // Load data for tab
+                if (tabId === 'users') {
+                    loadUsers();
+                } else if (tabId === 'orders') {
+                    loadAdminOrders();
+                } else if (tabId === 'revenue') {
+                    loadRevenueAnalytics(30);
+                }
+            });
+        });
+
+        // Period selector for revenue
+        document.querySelectorAll('.period-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                document.querySelectorAll('.period-btn').forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                const period = parseInt(button.getAttribute('data-period'));
+                loadRevenueAnalytics(period);
+            });
+        });
+
+        // Load admin stats
+        async function loadAdminStats() {
+            try {
+                const response = await fetch('/api/admin/stats');
+                const data = await response.json();
+
+                const stats = data.statistics;
+                document.getElementById('stat-users').textContent = stats.totalUsers || 0;
+                document.getElementById('stat-products').textContent = stats.totalProducts || 0;
+                document.getElementById('stat-orders').textContent = stats.totalOrders || 0;
+                document.getElementById('stat-revenue').textContent = formatCurrency(stats.totalRevenue || 0);
+                document.getElementById('stat-active-users').textContent = stats.activeUsers || 0;
+
+                // Load overview data
+                loadRecentUsers(data.recentUsers);
+                loadRecentOrders(data.recentOrders);
+                loadTopSellers(data.topSellers);
+
+            } catch (error) {
+                console.error('Load admin stats error:', error);
+            }
+        }
+
+        // Load recent users
+        function loadRecentUsers(users) {
+            const container = document.getElementById('recent-users');
+            if (!container) return;
+
+            if (!users || users.length === 0) {
+                container.innerHTML = '<p class="empty-state">No recent registrations</p>';
+                return;
+            }
+
+            let html = '<ul class="recent-list-items">';
+            users.forEach(user => {
+                html += `
+                    <li class="recent-item">
+                        <div>
+                            <strong>${user.business_name}</strong><br>
+                            <small>${user.email}</small>
+                        </div>
+                        <small>${formatDate(user.created_at)}</small>
+                    </li>
+                `;
+            });
+            html += '</ul>';
+            container.innerHTML = html;
+        }
+
+        // Load recent orders
+        function loadRecentOrders(orders) {
+            const container = document.getElementById('recent-orders');
+            if (!container) return;
+
+            if (!orders || orders.length === 0) {
+                container.innerHTML = '<p class="empty-state">No recent orders</p>';
+                return;
+            }
+
+            let html = '<ul class="recent-list-items">';
+            orders.forEach(order => {
+                const statusClass = order.payment_status === 'paid' ? 'status-paid' : 
+                                   order.payment_status === 'pending' ? 'status-pending' : 'status-failed';
+                html += `
+                    <li class="recent-item">
+                        <div>
+                            <strong>${order.order_number}</strong><br>
+                            <small>${order.customer_name}</small>
+                        </div>
+                        <div style="text-align: right;">
+                            <span class="status-badge ${statusClass}">${order.payment_status}</span><br>
+                            <small>${formatCurrency(order.total_amount)}</small>
+                        </div>
+                    </li>
+                `;
+            });
+            html += '</ul>';
+            container.innerHTML = html;
+        }
+
+        // Load top sellers
+        function loadTopSellers(sellers) {
+            const container = document.getElementById('top-sellers');
+            if (!container) return;
+
+            if (!sellers || sellers.length === 0) {
+                container.innerHTML = '<p class="empty-state">No sellers yet</p>';
+                return;
+            }
+
+            let html = '<ul class="recent-list-items">';
+            sellers.forEach((seller, index) => {
+                html += `
+                    <li class="recent-item">
+                        <div>
+                            <strong>#${index + 1} ${seller.business_name}</strong><br>
+                            <small>${seller.email}</small>
+                        </div>
+                        <div style="text-align: right;">
+                            <strong>${formatCurrency(seller.total_sales)}</strong><br>
+                            <small>${seller.total_orders} orders</small>
+                        </div>
+                    </li>
+                `;
+            });
+            html += '</ul>';
+            container.innerHTML = html;
+        }
+
+        // Load users table
+        async function loadUsers() {
+            const container = document.getElementById('users-table');
+            const statusFilter = document.getElementById('user-filter')?.value || 'all';
+            const searchInput = document.getElementById('user-search')?.value || '';
+
+            if (!container) return;
+
+            try {
+                let url = `/api/admin/users?limit=50`;
+                if (statusFilter !== 'all') {
+                    url += `&status=${statusFilter}`;
+                }
+                if (searchInput) {
+                    url += `&search=${encodeURIComponent(searchInput)}`;
+                }
+
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (!data.users || data.users.length === 0) {
+                    container.innerHTML = '<p class="empty-state">No users found</p>';
+                    return;
+                }
+
+                let html = `
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Business</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Location</th>
+                                <th>Status</th>
+                                <th>Joined</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+
+                data.users.forEach(user => {
+                    const statusClass = user.is_active ? 'status-active' : 'status-inactive';
+                    const statusText = user.is_active ? 'Active' : 'Inactive';
+
+                    html += `
+                        <tr>
+                            <td><strong>${user.business_name}</strong></td>
+                            <td>${user.email}</td>
+                            <td>${user.phone}</td>
+                            <td>${user.city}, ${user.state}</td>
+                            <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                            <td>${formatDate(user.created_at)}</td>
+                            <td>
+                                <button class="btn-small" onclick="toggleUserStatus(${user.id}, ${!user.is_active})">
+                                    ${user.is_active ? 'Deactivate' : 'Activate'}
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+
+                html += `
+                        </tbody>
+                    </table>
+                `;
+
+                container.innerHTML = html;
+
+            } catch (error) {
+                console.error('Load users error:', error);
+                container.innerHTML = '<p class="error">Failed to load users</p>';
+            }
+        }
+
+        // Toggle user status
+        async function toggleUserStatus(userId, isActive) {
+            if (!confirm(`Are you sure you want to ${isActive ? 'activate' : 'deactivate'} this user?`)) return;
+
+            try {
+                const response = await fetch(`/api/admin/users/${userId}/status`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ is_active: isActive })
+                });
+
+                if (response.ok) {
+                    showToast(`User ${isActive ? 'activated' : 'deactivated'} successfully`, 'success');
+                    loadUsers();
+                    loadAdminStats();
+                } else {
+                    const result = await response.json();
+                    showToast(result.error || 'Failed to update user status', 'error');
+                }
+            } catch (error) {
+                showToast('Failed to update user status', 'error');
+                console.error('Toggle user status error:', error);
+            }
+        }
+
+        // Load admin orders
+        async function loadAdminOrders() {
+            const container = document.getElementById('orders-table');
+            const paymentFilter = document.getElementById('order-payment-filter')?.value || 'all';
+            const statusFilter = document.getElementById('order-status-filter')?.value || 'all';
+
+            if (!container) return;
+
+            try {
+                let url = '/api/admin/orders?limit=50';
+                if (paymentFilter !== 'all') {
+                    url += `&paymentStatus=${paymentFilter}`;
+                }
+                if (statusFilter !== 'all') {
+                    url += `&orderStatus=${statusFilter}`;
+                }
+
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (!data.orders || data.orders.length === 0) {
+                    container.innerHTML = '<p class="empty-state">No orders found</p>';
+                    return;
+                }
+
+                let html = `
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Order #</th>
+                                <th>Customer</th>
+                                <th>Total</th>
+                                <th>Commission</th>
+                                <th>Payment</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+
+                data.orders.forEach(order => {
+                    const paymentStatusClass = `status-${order.payment_status}`;
+                    const orderStatusClass = `status-${order.order_status}`;
+
+                    html += `
+                        <tr>
+                            <td><strong>${order.order_number}</strong></td>
+                            <td>
+                                <div>${order.customer_name}</div>
+                                <small>${order.customer_email}</small>
+                            </td>
+                            <td>${formatCurrency(order.total_amount)}</td>
+                            <td>${formatCurrency(order.commission_amount)}</td>
+                            <td><span class="status-badge ${paymentStatusClass}">${order.payment_status}</span></td>
+                            <td><span class="status-badge ${orderStatusClass}">${order.order_status}</span></td>
+                            <td>${formatDate(order.created_at)}</td>
+                        </tr>
+                    `;
+                });
+
+                html += `
+                        </tbody>
+                    </table>
+                `;
+
+                container.innerHTML = html;
+
+            } catch (error) {
+                console.error('Load orders error:', error);
+                container.innerHTML = '<p class="error">Failed to load orders</p>';
+            }
+        }
+
+        // Load revenue analytics
+        async function loadRevenueAnalytics(period = 30) {
+            const container = document.getElementById('revenue-chart');
+            
+            if (!container) return;
+
+            try {
+                const response = await fetch(`/api/admin/analytics/revenue?period=${period}`);
+                const data = await response.json();
+
+                // Update summary
+                if (data.summary) {
+                    document.getElementById('revenue-total').textContent = formatCurrency(data.summary.total_commission || 0);
+                    document.getElementById('revenue-orders').textContent = data.summary.total_orders || 0;
+                    document.getElementById('revenue-sales').textContent = formatCurrency(data.summary.total_sales || 0);
+                }
+
+                // Render chart
+                if (!data.dailyRevenue || data.dailyRevenue.length === 0) {
+                    container.innerHTML = '<p class="empty-state">No revenue data for this period</p>';
+                    return;
+                }
+
+                let html = `
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Orders</th>
+                                <th>Total Sales</th>
+                                <th>Commission</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+
+                data.dailyRevenue.forEach(day => {
+                    html += `
+                        <tr>
+                            <td>${formatDate(day.date)}</td>
+                            <td>${day.orders}</td>
+                            <td>${formatCurrency(day.total_sales)}</td>
+                            <td>${formatCurrency(day.total_commission)}</td>
+                        </tr>
+                    `;
+                });
+
+                html += `
+                        </tbody>
+                    </table>
+                `;
+
+                container.innerHTML = html;
+
+            } catch (error) {
+                console.error('Load revenue analytics error:', error);
+                container.innerHTML = '<p class="error">Failed to load revenue data</p>';
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAdminStats();
+        });
+
+        // Filter event listeners
+        document.getElementById('user-filter')?.addEventListener('change', loadUsers);
+        document.getElementById('user-search')?.addEventListener('keyup', (e) => {
+            if (e.key === 'Enter') loadUsers();
+        });
+        document.getElementById('order-payment-filter')?.addEventListener('change', loadAdminOrders);
+        document.getElementById('order-status-filter')?.addEventListener('change', loadAdminOrders);
+    </script>
+</body>
+</html>

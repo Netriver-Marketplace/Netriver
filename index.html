@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netriver - Nigerian Online Marketplace</title>
+    <link rel="stylesheet" href="css/style.css">
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+
+    <style>
+    @media (max-width: 768px) {
+        .theme-toggle {
+            position: absolute;
+            right: 60px;
+            z-index: 5;
+        }
+        .hamburger {
+            z-index: 10;
+        }
+    }
+    </style>
+    
+</head>
+<body>
+    <button class="theme-toggle">🌓</button>
+
+    <nav>
+        <div class="container nav-container">
+            <a href="/" class="logo">Netriver</a>
+            <button class="mobile-menu-btn">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="cart.html">Cart <span class="cart-count">0</span></a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="register.html">Register</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Welcome to Netriver</h1>
+            <p>Your trusted Nigerian marketplace for quality products from verified sellers</p>
+            <a href="products.html" class="cta-button">Start Shopping</a>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="container">
+            <h2>Why Choose Netriver?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>🔒 Secure Payments</h3>
+                    <p>Safe and secure payment processing with Paystack</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🏪 Verified Sellers</h3>
+                    <p>All sellers are registered and verified businesses</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🚚 Fast Delivery</h3>
+                    <p>Quick delivery across all Nigerian states</p>
+                </div>
+                <div class="feature-card">
+                    <h3>💰 Best Prices</h3>
+                    <p>Competitive prices from local sellers</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="featured-products">
+        <div class="container">
+            <h2>Featured Products</h2>
+            <div class="product-grid" id="featured-products-grid">
+                <div class="spinner"></div>
+            </div>
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="products.html" class="cta-button">View All Products</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-section">
+                <h3>Netriver</h3>
+                <p>Your trusted Nigerian marketplace</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="/products">Products</a>
+                <a href="/about">About Us</a>
+                <a href="/contact">Contact</a>
+            </div>
+            <div class="footer-section">
+                <h3>Seller Zone</h3>
+                <a href="/register">Register as Seller</a>
+                <a href="/login">Seller Login</a>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <p>Email: admin@netriver.ng</p>
+                <p>Phone: +234 800 000 0000</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Load featured products on home page
+        document.addEventListener('DOMContentLoaded', async () => {
+            const featuredGrid = document.getElementById('featured-products-grid');
+            if (featuredGrid) {
+                try {
+                    const response = await fetch('/api/products?limit=8');
+                    const data = await response.json();
+                    
+                    featuredGrid.innerHTML = '';
+                    
+                    if (data.products.length === 0) {
+                        featuredGrid.innerHTML = '<p class="no-products">No products available at the moment</p>';
+                        return;
+                    }
+
+                    data.products.forEach(product => {
+                        const card = document.createElement('div');
+                        card.className = 'product-card';
+                        const imageUrl = product.image_url || 'https://via.placeholder.com/300x200?text=No+Image';
+                        
+                        card.innerHTML = `
+                            <img src="${imageUrl}" alt="${product.name}" class="product-image" onerror="this.src='https://via.placeholder.com/300x200?text=Image+Not+Available'">
+                            <div class="product-info">
+                                <h3 class="product-name">${product.name}</h3>
+                                <p class="product-price">₦${parseFloat(product.price).toLocaleString('en-NG', {minimumFractionDigits: 2})}</p>
+                                <p class="product-category">${product.category}</p>
+                                <p class="product-seller">Sold by: ${product.seller_name}</p>
+                                <button class="add-to-cart-btn" onclick="addToCart(${product.id})">
+                                    Add to Cart
+                                </button>
+                            </div>
+                        `;
+                        featuredGrid.appendChild(card);
+                    });
+                } catch (error) {
+                    featuredGrid.innerHTML = '<p class="error">Failed to load featured products</p>';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

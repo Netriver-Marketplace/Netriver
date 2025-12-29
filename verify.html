@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Email - Netriver</title>
+    <link rel="stylesheet" href="css/style.css">
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+    <button class="theme-toggle">🌓</button>
+
+    <nav>
+        <div class="container nav-container">
+            <a href="/" class="logo">Netriver</a>
+            <button class="mobile-menu-btn">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Verify Your Email</h1>
+            <p>Enter the verification code sent to your email</p>
+        </div>
+    </section>
+
+    <section class="verification-section">
+        <div class="container">
+            <div class="form-container">
+                <h2>Email Verification</h2>
+                <p class="form-intro">
+                    We've sent a 6-digit verification code to your email address. 
+                    Please enter it below to complete your registration.
+                </p>
+
+                <div id="email-display" class="email-info" style="display: none;">
+                    <p><strong>Email:</strong> <span id="user-email"></span></p>
+                </div>
+
+                <form id="verification-form">
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required placeholder="your@email.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="code">Verification Code *</label>
+                        <input type="text" id="code" name="code" required 
+                               maxlength="6" pattern="[0-9]{6}" 
+                               placeholder="Enter 6-digit code" 
+                               style="font-size: 1.5rem; letter-spacing: 5px; text-align: center;">
+                        <small class="form-hint">Check your email for the 6-digit code</small>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Verify Email</button>
+                </form>
+
+                <div class="resend-section">
+                    <p>Didn't receive the code?</p>
+                    <button id="resend-btn" class="btn-secondary" onclick="resendCode()">Resend Code</button>
+                    <p id="resend-timer" style="display: none; margin-top: 10px;">
+                        Resend available in <span id="timer">30</span> seconds
+                    </p>
+                </div>
+
+                <div class="help-section">
+                    <h3>Need Help?</h3>
+                    <ul>
+                        <li>Check your spam/junk folder</li>
+                        <li>Make sure you entered the correct email address</li>
+                        <li>Verification codes expire after 30 minutes</li>
+                        <li>Contact support if issues persist</li>
+                    </ul>
+                    <p>
+                        📧 Email: netriver.marketplace@gmail.com<br>
+                        📞 Phone: +234 800 000 0000
+                    </p>
+                </div>
+            </div>
+
+            <div class="verification-info">
+                <h2>Why Verify Your Email?</h2>
+                <div class="benefits-list">
+                    <div class="benefit-item">
+                        <h3>🔒 Security</h3>
+                        <p>Email verification ensures that only legitimate sellers can register on our platform, protecting both buyers and sellers.</p>
+                    </div>
+                    <div class="benefit-item">
+                        <h3>📧 Communication</h3>
+                        <p>We need to send you important updates about your orders, payments, and account security.</p>
+                    </div>
+                    <div class="benefit-item">
+                        <h3>✅ Trust</h3>
+                        <p>Verified sellers build trust with buyers, leading to more sales and better customer relationships.</p>
+                    </div>
+                    <div class="benefit-item">
+                        <h3>🛡️ Protection</h3>
+                        <p>Email verification prevents fraud and protects your business from unauthorized access.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-section">
+                <h3>Netriver</h3>
+                <p>Your trusted Nigerian marketplace</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="/products">Products</a>
+                <a href="/about">About Us</a>
+                <a href="/contact">Contact</a>
+            </div>
+            <div class="footer-section">
+                <h3>Seller Zone</h3>
+                <a href="/register">Register as Seller</a>
+                <a href="/login">Seller Login</a>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <p>Email: admin@netriver.ng</p>
+                <p>Phone: +234 800 000 0000</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Get email from URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const email = urlParams.get('email');
+
+        if (email) {
+            document.getElementById('email').value = email;
+            document.getElementById('email').readOnly = true;
+            document.getElementById('email-display').style.display = 'block';
+            document.getElementById('user-email').textContent = email;
+        }
+
+        // Resend timer
+        let resendTimer = null;
+        let timeLeft = 30;
+
+        function startResendTimer() {
+            const resendBtn = document.getElementById('resend-btn');
+            const resendTimerDisplay = document.getElementById('resend-timer');
+            const timerDisplay = document.getElementById('timer');
+
+            resendBtn.disabled = true;
+            resendBtn.style.opacity = '0.5';
+            resendTimerDisplay.style.display = 'block';
+            timeLeft = 30;
+
+            resendTimer = setInterval(() => {
+                timeLeft--;
+                timerDisplay.textContent = timeLeft;
+
+                if (timeLeft <= 0) {
+                    clearInterval(resendTimer);
+                    resendBtn.disabled = false;
+                    resendBtn.style.opacity = '1';
+                    resendTimerDisplay.style.display = 'none';
+                }
+            }, 1000);
+        }
+
+        // Start timer on page load
+        startResendTimer();
+
+        // Verification form submission
+        document.getElementById('verification-form')?.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+
+            // Validate code format
+            if (!/^[0-9]{6}$/.test(data.code)) {
+                showToast('Please enter a valid 6-digit verification code', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/auth/verify-email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    showToast('Email verified successfully! Redirecting to dashboard...', 'success');
+                    setTimeout(() => {
+                        window.location.href = '/dashboard';
+                    }, 2000);
+                } else {
+                    showToast(result.error || 'Verification failed', 'error');
+                }
+            } catch (error) {
+                showToast('Verification failed. Please try again.', 'error');
+                console.error('Verification error:', error);
+            }
+        });
+
+        // Resend code
+        async function resendCode() {
+            const email = document.getElementById('email').value;
+
+            if (!email) {
+                showToast('Please enter your email address', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/auth/resend-verification', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email })
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    showToast('New verification code sent to your email', 'success');
+                    startResendTimer();
+                } else {
+                    showToast(result.error || 'Failed to resend code', 'error');
+                }
+            } catch (error) {
+                showToast('Failed to resend code. Please try again.', 'error');
+                console.error('Resend code error:', error);
+            }
+        }
+    </script>
+</body>
+</html>

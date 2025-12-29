@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - Netriver</title>
+    <link rel="stylesheet" href="css/style.css">
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+    <button class="theme-toggle">🌓</button>
+
+    <nav>
+        <div class="container nav-container">
+            <a href="/" class="logo">Netriver</a>
+            <button class="mobile-menu-btn">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="cart.html">Cart <span class="cart-count">0</span></a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="register.html">Register</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Shopping Cart</h1>
+            <p>Review your items before checkout</p>
+        </div>
+    </section>
+
+    <section class="cart-section">
+        <div class="container">
+            <div class="cart-layout">
+                <div class="cart-items-container">
+                    <div class="cart-header">
+                        <h2>Your Cart <span class="cart-item-count">(0 items)</span></h2>
+                        <button class="clear-cart-btn" onclick="clearCart()">Clear Cart</button>
+                    </div>
+                    
+                    <div class="cart-items" id="cart-items">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+
+                <div class="cart-summary">
+                    <h2>Order Summary</h2>
+                    <div class="summary-details">
+                        <div class="summary-row">
+                            <span>Subtotal</span>
+                            <span id="subtotal">₦0.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Platform Fee (10%)</span>
+                            <span id="platform-fee">₦0.00</span>
+                        </div>
+                        <div class="summary-row total">
+                            <span>Total</span>
+                            <span class="cart-total-amount" id="cart-total">₦0.00</span>
+                        </div>
+                    </div>
+                    
+                    <div class="checkout-actions">
+                        <a href="/products" class="btn-secondary">Continue Shopping</a>
+                        <button class="btn-primary" onclick="proceedToCheckout()" id="checkout-btn">Proceed to Checkout</button>
+                    </div>
+                    
+                    <div class="security-info">
+                        <h3>🔒 Secure Checkout</h3>
+                        <p>Your payment is processed securely through Paystack</p>
+                        <div class="payment-methods">
+                            <span>💳 Cards</span>
+                            <span>🏦 Bank Transfer</span>
+                            <span>📱 USSD</span>
+                            <span>📷 QR Code</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Checkout Modal -->
+    <div class="modal" id="checkout-modal">
+        <div class="modal-content checkout-modal">
+            <div class="modal-header">
+                <h2>Complete Your Order</h2>
+                <button class="modal-close" onclick="closeCheckoutModal()">&times;</button>
+            </div>
+            
+            <form id="checkout-form">
+                <div class="checkout-section">
+                    <h3>Delivery Information</h3>
+                    <div class="form-group">
+                        <label for="customer_name">Full Name *</label>
+                        <input type="text" id="customer_name" name="customer_name" required minlength="2">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="customer_email">Email Address *</label>
+                        <input type="email" id="customer_email" name="customer_email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="customer_phone">Phone Number *</label>
+                        <input type="tel" id="customer_phone" name="customer_phone" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="customer_address">Delivery Address *</label>
+                        <textarea id="customer_address" name="customer_address" required rows="3"></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="customer_state">State *</label>
+                            <select id="customer_state" name="customer_state" required>
+                                <option value="">Select State</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="customer_city">City *</label>
+                            <input type="text" id="customer_city" name="customer_city" required minlength="2">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="checkout-section">
+                    <h3>Order Summary</h3>
+                    <div class="order-summary-items" id="checkout-items">
+                        <!-- Items will be loaded here -->
+                    </div>
+                    <div class="summary-total">
+                        <strong>Total Amount:</strong>
+                        <span id="checkout-total">₦0.00</span>
+                    </div>
+                </div>
+
+                <div class="checkout-section">
+                    <h3>Payment Method</h3>
+                    <div class="payment-method">
+                        <label class="payment-option">
+                            <input type="radio" name="payment_method" value="paystack" checked>
+                            <span>Paystack - Secure Payment</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="checkout-actions">
+                    <button type="submit" class="submit-btn" id="place-order-btn">
+                        <span class="btn-text">Place Order & Pay</span>
+                        <span class="btn-amount" id="btn-total">₦0.00</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-section">
+                <h3>Netriver</h3>
+                <p>Your trusted Nigerian marketplace</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="/products">Products</a>
+                <a href="/about">About Us</a>
+                <a href="/contact">Contact</a>
+            </div>
+            <div class="footer-section">
+                <h3>Seller Zone</h3>
+                <a href="/register">Register as Seller</a>
+                <a href="/login">Seller Login</a>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <p>Email: admin@netriver.ng</p>
+                <p>Phone: +234 800 000 0000</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        let cartData = { items: [], total: 0, itemCount: 0 };
+        let orderNumber = null;
+
+        // Load cart on page load
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadCartPage();
+            await loadStates();
+        });
+
+        // Load Nigerian states
+        async function loadStates() {
+            const stateSelect = document.getElementById('customer_state');
+            
+            try {
+                const response = await fetch('/api/auth/states');
+                const data = await response.json();
+                
+                if (data.states) {
+                    data.states.forEach(state => {
+                        const option = document.createElement('option');
+                        option.value = state;
+                        option.textContent = state;
+                        stateSelect.appendChild(option);
+                    });
+                }
+            } catch (error) {
+                console.error('Failed to load states:', error);
+            }
+        }
+
+        // Load cart page
+        async function loadCartPage() {
+            try {
+                const response = await fetch('/api/cart');
+                cartData = await response.json();
+                
+                updateCartUI();
+            } catch (error) {
+                console.error('Load cart error:', error);
+                showToast('Failed to load cart', 'error');
+            }
+        }
+
+        // Update cart UI
+        function updateCartUI() {
+            const cartItemsContainer = document.getElementById('cart-items');
+            const cartItemCount = document.querySelector('.cart-item-count');
+            const cartTotal = document.getElementById('cart-total');
+            const subtotal = document.getElementById('subtotal');
+            const platformFee = document.getElementById('platform-fee');
+            const checkoutBtn = document.getElementById('checkout-btn');
+
+            // Update item count
+            if (cartItemCount) {
+                cartItemCount.textContent = `(${cartData.itemCount} items)`;
+            }
+
+            // Update totals
+            const total = parseFloat(cartData.total);
+            const fee = total * 0.10; // 10% platform fee
+            
+            if (cartTotal) cartTotal.textContent = formatCurrency(total);
+            if (subtotal) subtotal.textContent = formatCurrency(total);
+            if (platformFee) platformFee.textContent = formatCurrency(fee);
+
+            // Enable/disable checkout button
+            if (checkoutBtn) {
+                checkoutBtn.disabled = cartData.items.length === 0;
+                if (cartData.items.length === 0) {
+                    checkoutBtn.textContent = 'Cart is Empty';
+                } else {
+                    checkoutBtn.textContent = 'Proceed to Checkout';
+                }
+            }
+
+            // Render cart items
+            if (cartItemsContainer) {
+                if (cartData.items.length === 0) {
+                    cartItemsContainer.innerHTML = `
+                        <div class="empty-cart">
+                            <h3>Your cart is empty</h3>
+                            <p>Add some products to get started!</p>
+                            <a href="/products" class="cta-button">Start Shopping</a>
+                        </div>
+                    `;
+                    return;
+                }
+
+                let html = '';
+                cartData.items.forEach(item => {
+                    const imageUrl = item.image_url || 'https://via.placeholder.com/100x100?text=No+Image';
+                    const itemTotal = parseFloat(item.price) * item.quantity;
+
+                    html += `
+                        <div class="cart-item">
+                            <div class="cart-item-image">
+                                <img src="${imageUrl}" alt="${item.name}" onerror="this.src='https://via.placeholder.com/100x100?text=Image'">
+                            </div>
+                            <div class="cart-item-details">
+                                <h3 class="cart-item-name">${item.name}</h3>
+                                <p class="cart-item-seller">Sold by: ${item.seller_name}</p>
+                                <p class="cart-item-price">${formatCurrency(item.price)}</p>
+                            </div>
+                            <div class="cart-item-quantity">
+                                <button class="quantity-btn" onclick="updateCartItemQuantity(${item.cart_id}, ${item.quantity - 1})">-</button>
+                                <span class="quantity">${item.quantity}</span>
+                                <button class="quantity-btn" onclick="updateCartItemQuantity(${item.cart_id}, ${item.quantity + 1})">+</button>
+                            </div>
+                            <div class="cart-item-total">
+                                <span class="item-total">${formatCurrency(itemTotal)}</span>
+                                <button class="remove-btn" onclick="removeCartItem(${item.cart_id})">Remove</button>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                cartItemsContainer.innerHTML = html;
+            }
+        }
+
+        // Update cart item quantity
+        async function updateCartItemQuantity(cartItemId, quantity) {
+            if (quantity < 1) {
+                await removeCartItem(cartItemId);
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/cart/${cartItemId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ quantity })
+                });
+
+                if (response.ok) {
+                    await loadCartPage();
+                    updateCartCount();
+                } else {
+                    const result = await response.json();
+                    showToast(result.error || 'Failed to update quantity', 'error');
+                }
+            } catch (error) {
+                showToast('Failed to update quantity', 'error');
+                console.error('Update quantity error:', error);
+            }
+        }
+
+        // Remove cart item
+        async function removeCartItem(cartItemId) {
+            if (!confirm('Remove this item from cart?')) return;
+
+            try {
+                const response = await fetch(`/api/cart/${cartItemId}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    showToast('Item removed from cart', 'success');
+                    await loadCartPage();
+                    updateCartCount();
+                } else {
+                    const result = await response.json();
+                    showToast(result.error || 'Failed to remove item', 'error');
+                }
+            } catch (error) {
+                showToast('Failed to remove item', 'error');
+                console.error('Remove item error:', error);
+            }
+        }
+
+        // Clear cart
+        async function clearCart() {
+            if (!confirm('Clear all items from cart?')) return;
+
+            try {
+                const response = await fetch('/api/cart', {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    showToast('Cart cleared', 'success');
+                    await loadCartPage();
+                    updateCartCount();
+                } else {
+                    const result = await response.json();
+                    showToast(result.error || 'Failed to clear cart', 'error');
+                }
+            } catch (error) {
+                showToast('Failed to clear cart', 'error');
+                console.error('Clear cart error:', error);
+            }
+        }
+
+        // Proceed to checkout
+        function proceedToCheckout() {
+            if (cartData.items.length === 0) {
+                showToast('Your cart is empty', 'error');
+                return;
+            }
+
+            // Load checkout items
+            const checkoutItems = document.getElementById('checkout-items');
+            let html = '';
+            cartData.items.forEach(item => {
+                const itemTotal = parseFloat(item.price) * item.quantity;
+                html += `
+                    <div class="checkout-item">
+                        <span>${item.name} x ${item.quantity}</span>
+                        <span>${formatCurrency(itemTotal)}</span>
+                    </div>
+                `;
+            });
+            checkoutItems.innerHTML = html;
+
+            // Update totals
+            const total = parseFloat(cartData.total);
+            const btnTotal = document.getElementById('btn-total');
+            const checkoutTotal = document.getElementById('checkout-total');
+            
+            if (btnTotal) btnTotal.textContent = formatCurrency(total);
+            if (checkoutTotal) checkoutTotal.textContent = formatCurrency(total);
+
+            // Show modal
+            document.getElementById('checkout-modal').style.display = 'block';
+        }
+
+        // Close checkout modal
+        function closeCheckoutModal() {
+            document.getElementById('checkout-modal').style.display = 'none';
+        }
+
+        // Checkout form submission
+        document.getElementById('checkout-form')?.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            const placeOrderBtn = document.getElementById('place-order-btn');
+            placeOrderBtn.disabled = true;
+            placeOrderBtn.innerHTML = '<span class="btn-text">Processing...</span>';
+
+            try {
+                // Create order
+                const orderResponse = await fetch('/api/orders', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const orderResult = await orderResponse.json();
+
+                if (!orderResponse.ok) {
+                    throw new Error(orderResult.error || 'Failed to create order');
+                }
+
+                orderNumber = orderResult.orderNumber;
+                const totalAmount = orderResult.totalAmount;
+
+                // Initialize payment
+                const paymentResponse = await fetch('/api/payment/initialize', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        orderNumber: orderNumber,
+                        email: data.customer_email,
+                        amount: totalAmount
+                    })
+                });
+
+                const paymentResult = await paymentResponse.json();
+
+                if (!paymentResponse.ok) {
+                    throw new Error(paymentResult.error || 'Payment initialization failed');
+                }
+
+                showToast('Order created! Redirecting to payment...', 'success');
+
+                // Redirect to Paystack
+                if (paymentResult.authorizationUrl) {
+                    setTimeout(() => {
+                        window.location.href = paymentResult.authorizationUrl;
+                    }, 1500);
+                } else {
+                    throw new Error('Payment URL not received');
+                }
+
+            } catch (error) {
+                showToast(error.message || 'Checkout failed', 'error');
+                placeOrderBtn.disabled = false;
+                placeOrderBtn.innerHTML = `<span class="btn-text">Place Order & Pay</span><span class="btn-amount" id="btn-total">${formatCurrency(cartData.total)}</span>`;
+            }
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('checkout-modal');
+            if (event.target === modal) {
+                closeCheckoutModal();
+            }
+        });
+    </script>
+</body>
+</html>
