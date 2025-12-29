@@ -1,0 +1,50 @@
+# Render Configuration for Netriver Marketplace
+# This file configures automatic deployment to Render
+
+services:
+  - type: web
+    name: netriver-marketplace
+    env: node
+    region: oregon
+    plan: free
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      # Node Configuration
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      
+      # Database Configuration
+      # UPDATE THESE with your database credentials
+      - key: DATABASE_URL
+        value: postgresql://netriver_user:sKJJF2p0faaIeUEZKV37NUkFdHYwikCP@dpg-d594sav5r7bs73924av0-a/netriver_db_g9ao
+      
+      # Security
+      - key: JWT_SECRET
+        generateValue: true
+      - key: SESSION_SECRET
+        generateValue: true
+      
+      # Paystack Payment
+      # UPDATE THESE with your Paystack keys
+      - key: PAYSTACK_PUBLIC_KEY
+        value: pk_test_bc0607833f975c6fc12722efab93956b3ca6c54a
+      - key: PAYSTACK_SECRET_KEY
+        value: sk_test_437b29ca0c4a282e4ed25f6d1d79a32aa4404097
+      
+      # Email Configuration
+      # UPDATE THESE with your Gmail credentials
+      - key: EMAIL_USER
+        value: netriver.marketplace@gmail.com
+      - key: EMAIL_PASSWORD
+        value: qgar macn pitq sksv
+      
+      # Frontend URL
+      - key: FRONTEND_URL
+        value: https://netriver-marketplace.onrender.com
+
+# Note: For PostgreSQL database, add this instead of DB_* variables:
+# - key: DATABASE_URL
+#   value: postgresql://user:password@host:5432/database
