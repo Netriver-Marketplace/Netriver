@@ -1,0 +1,9 @@
+-rw-r--r-- 1 root root 8.7K Dec 28 15:49 /workspace/DEPLOYMENT_CHECKLIST.md
+-rw-r--r-- 1 root root 9.5K Dec 28 15:16 /workspace/DEPLOYMENT_GUIDE.md
+-rw-r--r-- 1 root root  15K Dec 28 15:56 /workspace/DEPLOYMENT_SUMMARY.md
+-rw-r--r-- 1 root root  11K Dec 28 15:58 /workspace/DOCUMENTATION_INDEX.md
+-rw-r--r-- 1 root root 5.1K Dec 28 15:54 /workspace/QUICK_START_GUIDE.md
+-rw-r--r-- 1 root root  13K Dec 28 15:01 /workspace/README.md
+-rw-r--r-- 1 root root  11K Dec 28 15:45 /workspace/RENDER_DEPLOYMENT_GUIDE.md
+-rw-r--r-- 1 root root  12K Dec 28 15:52 /workspace/USER_COUNT_ACCESS_GUIDE.md
+-rw-r--r-- 1 root root 2.7K Dec 28 15:53 /workspace/todo.md

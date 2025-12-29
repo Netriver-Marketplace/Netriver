@@ -1,0 +1,16 @@
+total 56
+drwxr-xr-x 8 root root  4096 Dec 28 15:32 .
+drwxr-xr-x 1 root root   162 Dec 28 14:31 ..
+-rw-r--r-- 1 root root   459 Dec 28 15:08 .env.example
+-rw-r--r-- 1 root root   422 Dec 28 15:01 .gitignore
+-rw-r--r-- 1 root root  9704 Dec 28 15:16 DEPLOYMENT_GUIDE.md
+-rw-r--r-- 1 root root 12608 Dec 28 15:01 README.md
+drwxr-xr-x 2 root root    84 Dec 28 15:09 config
+drwxr-xr-x 2 root root    52 Dec 28 14:34 middleware
+drwxr-xr-x 2 root root    57 Dec 28 15:32 outputs
+-rw-r--r-- 1 root root   661 Dec 28 15:07 package.json
+drwxr-xr-x 4 root root  4096 Dec 28 15:14 public
+drwxr-xr-x 2 root root   154 Dec 28 14:39 routes
+-rw-r--r-- 1 root root  2537 Dec 28 14:32 server.js
+drwxr-xr-x 2 root root    63 Dec 28 15:32 summarized_conversations
+-rw-r--r-- 1 root root  1963 Dec 28 15:17 todo.md
